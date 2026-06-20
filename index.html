@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="易德忠先生 — 一位父亲、儿子、企业家的永恒记忆">
+<meta name="keywords" content="易德忠,纪念,父亲,生平,赣州,瀚海精密">
+<meta property="og:title" content="易德忠 — 永远的记忆">
+<meta property="og:description" content="身平经历 · 家庭慈爱 · 精彩瞬间">
+<meta property="og:image" content="images/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<title>易德忠 — 永远的记忆</title>
+
+<!-- ===== Google Fonts ===== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- ===== Three.js Import Map ===== -->
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+
+<style>
+/* ================================================================
+   全局变量 & 基础样式
+   ================================================================ */
+:root {
+    --bg-deep: #080808;
+    --bg-surface: #111111;
+    --bg-elevated: #1a1a1a;
+    --gold: #bfa055;
+    --gold-light: #d4c08c;
+    --gold-dark: #8b7030;
+    --text-primary: #e8e4dc;
+    --text-secondary: #8a857c;
+    --text-muted: #5a5550;
+    --overlay: rgba(4,4,4,0.92);
+    --font-cn: 'Noto Serif SC', 'STSong', 'SimSun', 'Songti SC', serif;
+    --font-en: 'Cormorant Garamond', 'Georgia', 'Times New Roman', serif;
+    --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+}
+
+body {
+    font-family: var(--font-cn);
+    background: var(--bg-deep);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== 滚动容器 ===== */
+main {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+    height: 100dvh;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.section {
+    scroll-snap-align: start;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 20px;
+}
+
+.section-inner {
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+/* ================================================================
+   导航圆点
+   ================================================================ */
+.nav-dots {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nav-dot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color 0.3s;
+}
+
+.nav-dot .dot-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
+    flex-shrink: 0;
+}
+
+.nav-dot.active .dot-circle {
+    background: var(--gold);
+    border-color: var(--gold-light);
+    box-shadow: 0 0 12px rgba(191,160,85,0.5);
+    width: 12px;
+    height: 12px;
+}
+
+.nav-dot .dot-label {
+    font-size: 12px;
+    font-family: var(--font-cn);
+    opacity: 0;
+    transform: translateX(8px);
+    transition: all 0.35s ease;
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+.nav-dot:hover .dot-label,
+.nav-dot.active .dot-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ================================================================
+   开场页 (Hero)
+   ================================================================ */
+.hero-section {
+    background: radial-gradient(ellipse at center, #111108 0%, #080808 70%);
+}
+
+.hero-content {
+    text-align: center;
+}
+
+.hero-name {
+    font-size: clamp(64px, 12vw, 130px);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    animation: heroFadeIn 2.5s ease-out forwards;
+    opacity: 0;
+    text-shadow: 0 0 80px rgba(191,160,85,0.35);
+}
+
+.hero-subtitle {
+    font-family: var(--font-en);
+    font-size: clamp(22px, 3.5vw, 30px);
+    color: var(--gold-light);
+    letter-spacing: 0.3em;
+    margin-top: 20px;
+    animation: heroFadeIn 2.5s 0.8s ease-out forwards;
+    opacity: 0;
+    font-style: italic;
+}
+
+/* 封面照片 */
+.hero-photo-wrap {
+    margin-top: 36px;
+    animation: heroFadeIn 2.5s 1.2s ease-out forwards;
+    opacity: 0;
+}
+
+.hero-photo-wrap img {
+    width: clamp(160px, 22vw, 260px);
+    height: clamp(160px, 22vw, 260px);
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgba(191,160,85,0.4);
+    box-shadow: 0 0 50px rgba(191,160,85,0.15);
+}
+
+/* 开场粒子 */
+#hero-particles {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 向下滚动提示 */
+.scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: bounceDown 2.2s ease-in-out infinite;
+    cursor: pointer;
+}
+
+.scroll-hint svg {
+    width: 28px;
+    height: 28px;
+    stroke: var(--gold);
+    opacity: 0.5;
+}
+
+@keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceDown {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ================================================================
+   板块标题通用样式
+   ================================================================ */
+.section-title {
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    font-family: var(--font-en);
+    font-size: clamp(12px, 1.5vw, 15px);
+    color: var(--text-muted);
+    text-align: center;
+    letter-spacing: 0.25em;
+    margin-bottom: 48px;
+    font-style: italic;
+}
+
+.section-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 40px;
+    opacity: 0.5;
+}
+
+/* ================================================================
+   板块 1：身平经历 — 时间轴
+   ================================================================ */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-left: 0;
+}
+
+/* 中心金线 */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        var(--gold-dark) 5%,
+        var(--gold) 20%,
+        var(--gold) 80%,
+        var(--gold-dark) 95%,
+        transparent 100%);
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    width: 46%;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-item:nth-child(odd) {
+    margin-left: 0;
+    padding-right: 30px;
+    text-align: right;
+}
+
+.timeline-item:nth-child(even) {
+    margin-left: 54%;
+    padding-left: 30px;
+}
+
+/* 时间节点圆点 */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(191,160,85,0.6);
+    z-index: 1;
+}
+
+.timeline-item:nth-child(odd)::before {
+    right: -5px;
+}
+
+.timeline-item:nth-child(even)::before {
+    left: -5px;
+}
+
+.timeline-year {
+    font-family: var(--font-en);
+    font-size: 20px;
+    color: var(--gold-light);
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-style: italic;
+}
+
+.timeline-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.timeline-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* 时间轴照片 */
+.timeline-photo {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(191,160,85,0.35);
+    margin-bottom: 14px;
+    display: block;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 28px rgba(191,160,85,0.2);
+}
+
+.timeline-item:nth-child(odd) .timeline-photo {
+    margin-left: auto;
+}
+
+/* ================================================================
+   板块 2：关于父亲 — 五子点卡片
+   ================================================================ */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about-card {
+    background: var(--bg-surface);
+    border: 1px solid rgba(191,160,85,0.15);
+    border-radius: 12px;
+    padding: 28px 24px;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.about-card:hover::before {
+    opacity: 1;
+}
+
+.about-card:hover {
+    border-color: rgba(191,160,85,0.4);
+    box-shadow: 0 8px 32px rgba(191,160,85,0.08);
+    transform: translateY(-2px);
+}
+
+.about-card-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.about-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 0.03em;
+}
+
+.about-card-photo {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(191,160,85,0.2);
+}
+
+.about-card-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* 成就卡片更大 */
+.about-card.achievement {
+    grid-column: 1 / -1;
+}
+
+.about-card.achievement .achievement-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.achievement-item {
+    background: rgba(191,160,85,0.06);
+    border-left: 2px solid var(--gold-dark);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.achievement-item strong {
+    color: var(--gold-light);
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* ================================================================
+   板块 3：父亲的慈爱，儿子的温柔 — 双栏
+   ================================================================ */
+.dual-panel {
+    display: flex;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.dual-panel .panel {
+    flex: 1;
+    padding: 48px 36px;
+    position: relative;
+    opacity: 0;
+}
+
+.panel-left {
+    text-align: right;
+    border-right: 1px solid rgba(191,160,85,0.3);
+    transform: translateX(-30px);
+    transition: all 0.8s ease;
+}
+
+.panel-right {
+    transform: translateX(30px);
+    transition: all 0.8s ease;
+}
+
+.panel.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.panel-label {
+    font-size: 13px;
+    color: var(--gold-dark);
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.panel-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.panel-photo {
+    width: 100%;
+    max-width: 180px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(191,160,85,0.35);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+.panel-left .panel-photo {
+    margin-left: auto;
+}
+
+.panel-text {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 2;
+}
+
+/* ================================================================
+   板块 4：父亲的精彩瞬间 — 3D 照片球体
+   ================================================================ */
+#sphere-container {
+    width: 100%;
+    height: 65vh;
+    height: 65dvh;
+    cursor: grab;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#sphere-container:active {
+    cursor: grabbing;
+}
+
+#sphere-container canvas {
+    display: block;
+}
+
+.sphere-loading {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    z-index: 2;
+}
+
+.sphere-hint {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+}
+
+/* ================================================================
+   板块 5：儿女信封 — 视频
+   ================================================================ */
+.video-grid {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    max-width: 800px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.envelope-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.envelope-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 大尺寸视频图标容器 */
+.envelope-icon {
+    width: 200px;
+    height: 200px;
+    border-radius: 24px;
+    background: linear-gradient(145deg, #141410 0%, #0e0e0c 100%);
+    border: 2px solid rgba(191,160,85,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(191,160,85,0.05);
+}
+
+/* 背景光晕 */
+.envelope-icon::before {
+    content: '';
+    position: absolute;
+    inset: -40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(191,160,85,0.06) 0%, transparent 60%);
+    transition: all 0.5s ease;
+}
+
+.envelope-card:hover .envelope-icon::before {
+    transform: scale(1.2);
+    background: radial-gradient(circle at center, rgba(191,160,85,0.15) 0%, transparent 60%);
+}
+
+.envelope-card:hover .envelope-icon {
+    border-color: var(--gold);
+    box-shadow: 0 0 50px rgba(191,160,85,0.25), 0 12px 40px rgba(0,0,0,0.5);
+    transform: translateY(-6px);
+}
+
+/* 信封装饰SVG（半透明背景） */
+.envelope-icon .envelope-bg-svg {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    stroke: rgba(191,160,85,0.12);
+    fill: none;
+    stroke-width: 1;
+    pointer-events: none;
+}
+
+/* 大播放按钮 */
+.envelope-play-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(191,160,85,0.15);
+    border: 2.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.4s ease;
+    animation: playPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes playPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(191,160,85,0.3); }
+    50%      { box-shadow: 0 0 0 18px rgba(191,160,85,0); }
+}
+
+.envelope-card:hover .envelope-play-btn {
+    background: var(--gold);
+    border-color: var(--gold-light);
+    animation: none;
+    box-shadow: 0 0 36px rgba(191,160,85,0.5);
+    transform: scale(1.1);
+}
+
+/* 播放三角 */
+.envelope-play-btn::after {
+    content: '';
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 14px 0 14px 22px;
+    border-color: transparent transparent transparent var(--gold);
+    margin-left: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.envelope-card:hover .envelope-play-btn::after {
+    border-color: transparent transparent transparent var(--bg-deep);
+}
+
+/* 标签 */
+.envelope-label {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+.envelope-sublabel {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+}
+
+/* 底部提示文字 */
+.envelope-tip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.envelope-card:hover .envelope-tip {
+    opacity: 1;
+}
+
+/* ================================================================
+   板块 6：最后告白
+   ================================================================ */
+.confession-section {
+    background: var(--bg-deep);
+}
+
+#fireworks-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.confession-text {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.confession-line {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 2;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1.2s ease;
+}
+
+.confession-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.confession-line.highlight {
+    font-size: clamp(44px, 8vw, 70px);
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: 0 0 60px rgba(191,160,85,0.35);
+    margin-top: 16px;
+}
+
+.confession-divider {
+    width: 80px;
+    height: 1px;
+    background: var(--gold);
+    margin: 32px auto;
+    opacity: 0;
+    transition: opacity 1.5s 0.8s ease;
+}
+
+.confession-divider.visible {
+    opacity: 0.6;
+}
+
+/* ================================================================
+   灯箱 (照片查看器)
+   ================================================================ */
+.lightbox {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--overlay);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 85vw;
+    max-height: 85vh;
+}
+
+.lightbox-image {
+    max-width: 85vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    background: none;
+    border: 1px solid rgba(191,160,85,0.3);
+    color: var(--gold);
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-close:hover {
+    background: var(--gold);
+    color: var(--bg-deep);
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(191,160,85,0.1);
+    border: 1px solid rgba(191,160,85,0.3);
+    color: var(--gold-light);
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-nav:hover {
+    background: rgba(191,160,85,0.25);
+    border-color: var(--gold);
+}
+
+.lightbox-prev { left: -60px; }
+.lightbox-next { right: -60px; }
+
+.lightbox-counter {
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-en);
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+}
+
+/* ================================================================
+   视频弹窗
+   ================================================================ */
+.video-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--overlay);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    padding: 20px;
+}
+
+.video-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.video-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.video-container video {
+    width: 100%;
+    display: block;
+    background: #000;
+}
+
+.video-modal-close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    background: none;
+    border: 1px solid rgba(191,160,85,0.3);
+    color: var(--gold);
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.video-modal-close:hover {
+    background: var(--gold);
+    color: var(--bg-deep);
+}
+
+.video-modal-title {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 16px;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+}
+
+/* ================================================================
+   背景音乐按钮
+   ================================================================ */
+.music-toggle {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 1000;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(17,17,17,0.85);
+    border: 1px solid rgba(191,160,85,0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.35s ease;
+    backdrop-filter: blur(8px);
+}
+
+.music-toggle:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(191,160,85,0.2);
+}
+
+.music-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.music-toggle.playing svg {
+    stroke: var(--gold-light);
+}
+
+.music-toggle.muted .music-wave {
+    opacity: 0.3;
+}
+
+.music-toggle.muted::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 18px;
+    background: var(--gold);
+    transform: rotate(-45deg);
+    border-radius: 1px;
+    opacity: 0.7;
+}
+
+/* ================================================================
+   入场动画工具类
+   ================================================================ */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================================================================
+   响应式 — 移动端 (<768px)
+   ================================================================ */
+@media (max-width: 767px) {
+    .section {
+        padding: 40px 16px;
+    }
+
+    .section-inner {
+        padding: 0;
+    }
+
+    .nav-dots {
+        right: 8px;
+        gap: 10px;
+    }
+
+    .nav-dot .dot-circle {
+        width: 8px;
+        height: 8px;
+    }
+
+    .nav-dot.active .dot-circle {
+        width: 10px;
+        height: 10px;
+    }
+
+    .nav-dot .dot-label {
+        display: none;
+    }
+
+    /* 时间轴 — 单列 */
+    .timeline::before {
+        left: 18px;
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(odd),
+    .timeline-item:nth-child(even) {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 44px;
+        padding-right: 0;
+        text-align: left;
+    }
+
+    .timeline-item::before,
+    .timeline-item:nth-child(odd)::before,
+    .timeline-item:nth-child(even)::before {
+        left: 13px;
+        width: 8px;
+        height: 8px;
+    }
+
+    /* 关于父亲 */
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-card.achievement .achievement-list {
+        grid-template-columns: 1fr;
+    }
+
+    /* 双栏 → 堆叠 */
+    .dual-panel {
+        flex-direction: column;
+    }
+
+    .panel-left {
+        text-align: left;
+        border-right: none;
+        border-bottom: 1px solid rgba(191,160,85,0.3);
+        padding-bottom: 32px;
+    }
+
+    .panel-left .panel-photo {
+        margin-left: 0;
+    }
+
+    .panel-right {
+        padding-top: 32px;
+    }
+
+    .panel-photo {
+        max-width: 130px;
+    }
+
+    /* 时间轴照片 */
+    .timeline-photo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-photo {
+        margin-left: 0;
+    }
+
+    /* 封面照片 */
+    .hero-photo-wrap img {
+        width: clamp(120px, 35vw, 180px);
+        height: clamp(120px, 35vw, 180px);
+    }
+
+    /* 3D球体 */
+    #sphere-container {
+        height: 50vh;
+        height: 50dvh;
+    }
+
+    /* 视频信封 */
+    .video-grid {
+        gap: 40px;
+    }
+
+    .envelope-icon {
+        width: 150px;
+        height: 150px;
+        border-radius: 20px;
+    }
+
+    .envelope-play-btn {
+        width: 56px;
+        height: 56px;
+    }
+
+    .envelope-play-btn::after {
+        border-width: 10px 0 10px 17px;
+    }
+
+    .envelope-icon .envelope-bg-svg {
+        width: 70px;
+        height: 70px;
+    }
+
+    .envelope-label {
+        font-size: 16px;
+    }
+
+    /* 灯箱导航 */
+    .lightbox-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+    .lightbox-prev { left: 10px; }
+    .lightbox-next { right: 10px; }
+}
+
+/* ================================================================
+   响应式 — 平板 (768px-1023px)
+   ================================================================ */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .video-grid {
+        gap: 50px;
+    }
+
+    .envelope-icon {
+        width: 170px;
+        height: 170px;
+    }
+
+    .dual-panel {
+        gap: 24px;
+    }
+
+    .panel-left, .panel-right {
+        padding: 32px 24px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 背景音乐 ===== -->
+<audio id="bgm-audio" src="audio/bgm.m4a" loop preload="auto"></audio>
+
+<!-- ===== 音乐开关 ===== -->
+<button class="music-toggle playing" id="music-toggle" aria-label="暂停音乐" title="背景音乐播放中">
+    <svg viewBox="0 0 24 24">
+        <polygon class="music-wave" points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke-linejoin="round"/>
+        <path class="music-wave" d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke-linecap="round"/>
+        <path class="music-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke-linecap="round"/>
+    </svg>
+</button>
+
+<!-- ===== 导航圆点 ===== -->
+<nav class="nav-dots" aria-label="页面导航">
+    <a href="#section0" class="nav-dot active" title="首页">
+        <span class="dot-circle"></span>
+        <span class="dot-label">首页</span>
+    </a>
+    <a href="#section1" class="nav-dot" title="身平经历">
+        <span class="dot-circle"></span>
+        <span class="dot-label">身平经历</span>
+    </a>
+    <a href="#section2" class="nav-dot" title="关于父亲">
+        <span class="dot-circle"></span>
+        <span class="dot-label">关于父亲</span>
+    </a>
+    <a href="#section3" class="nav-dot" title="慈爱与温柔">
+        <span class="dot-circle"></span>
+        <span class="dot-label">慈爱与温柔</span>
+    </a>
+    <a href="#section4" class="nav-dot" title="精彩瞬间">
+        <span class="dot-circle"></span>
+        <span class="dot-label">精彩瞬间</span>
+    </a>
+    <a href="#section5" class="nav-dot" title="儿女信封">
+        <span class="dot-circle"></span>
+        <span class="dot-label">儿女信封</span>
+    </a>
+    <a href="#section6" class="nav-dot" title="最后告白">
+        <span class="dot-circle"></span>
+        <span class="dot-label">最后告白</span>
+    </a>
+</nav>
+
+<!-- ===== 主滚动容器 ===== -->
+<main id="main">
+
+<!-- ================================================================
+     板块 0：开场页
+     ================================================================ -->
+<section id="section0" class="section hero-section">
+    <canvas id="hero-particles"></canvas>
+    <div class="section-inner hero-content">
+        <h1 class="hero-name">易 德 忠</h1>
+        <p class="hero-subtitle">YI DEZHONG · 1973</p>
+        <div class="hero-photo-wrap">
+            <img src="images/cover/cover.jpg" alt="易德忠">
+        </div>
+    </div>
+    <div class="scroll-hint" onclick="document.getElementById('section1').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </div>
+</section>
+
+<!-- ================================================================
+     板块 1：身平经历
+     ================================================================ -->
+<section id="section1" class="section">
+    <div class="section-inner">
+        <h2 class="section-title">身平经历</h2>
+        <p class="section-subtitle">Life Journey</p>
+        <div class="section-divider"></div>
+
+        <div class="timeline">
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-01.jpg" alt="" loading="lazy">
+                <div class="timeline-year">1973</div>
+                <div class="timeline-title">出生赣州</div>
+                <div class="timeline-text">12月出生于江西赣州，龙头易氏家族的一员。家族传承的《易氏家训八珍》中"忠、孝、和、仁、义、学、勤、俭"的信条，深深影响着他的成长。先祖勤劳坚韧、开拓进取的精神，以及爷爷易存雲、父亲易祖光的言传身教，让他从小懂得踏实做事、诚恳待人的道理。</div>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-02.jpg" alt="" loading="lazy">
+                <div class="timeline-year">1991</div>
+                <div class="timeline-title">少年立志 · 闯荡深圳</div>
+                <div class="timeline-text">因几分之差未能考上重点高中，毅然选择辍学，跟随三哥易德辉前往深圳闯荡。初入社会，进入深圳观澜一家小型塑胶厂做啤工，从加料、上模到碎料，几乎承担了厂内各种基础工作。一年后掌握机台调试等技能，渴望更大的发展空间。</div>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-03.jpg" alt="" loading="lazy">
+                <div class="timeline-year">1992-1998</div>
+                <div class="timeline-title">七年磨砺 · 积累成长</div>
+                <div class="timeline-text">经老乡介绍进入东莞大岭山喷漆印刷厂。从物料员做起，认真负责，主动学习晒网板、调试移印机等技能，逐步成长为生管统计、印刷技术员，被提拔为副主管。在七年打工经历中，积累了印刷喷漆技能，学习到香港老板务实高效的做事方式，并掌握了水电安装等实用技能。</div>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-04.jpg" alt="" loading="lazy">
+                <div class="timeline-year">2004</div>
+                <div class="timeline-title">勇闯商海 · 开始创业</div>
+                <div class="timeline-text">与同事承包广源塑胶厂喷漆车间，圆了"老板梦"。创业初期面临货款回收、工资发放、原料采购、市场开拓等压力，曾一度遭遇资金困难。凭借诚信经营、稳定品质和主动跑市场接订单，逐步打开局面，积累了独立运营公司的经验，锤炼了抗压能力。</div>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-05.jpg" alt="" loading="lazy">
+                <div class="timeline-year">2009-2020</div>
+                <div class="timeline-title">不断求索 · 厚积薄发</div>
+                <div class="timeline-text">加入铂汉共同研发往复生产线，专注笔电喷漆市场。将传统文化理念与喷漆印刷管理结合，帮助企业实现快速发展。后因经营理念分歧再次跳出舒适圈，接手多家喷漆厂，在不断试错与实践中继续积累经验。</div>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-06.jpg" alt="" loading="lazy">
+                <div class="timeline-year">2021</div>
+                <div class="timeline-title">执掌瀚海 · 再创辉煌</div>
+                <div class="timeline-text">正式接管四川瀚海精密制造有限公司。推动制度建设与经营改善，投入资金购置电动注塑机、真空溅镀、高精度镭雕设备，建设无尘喷涂车间，整合笔记本塑胶件全制程。取得ISO9001、ISO45001等认证，获评高新技术企业、市级技术中心。产值从2.46亿元增长至3.5亿元（2023年），员工规模达550人。</div>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-07.jpg" alt="" loading="lazy">
+                <div class="timeline-year">2021.10</div>
+                <div class="timeline-title">政协委员 · 建言献策</div>
+                <div class="timeline-text">当选华蓥市政协委员，积极围绕高新技术产业和地方经济发展建言献策，认真履行政协委员职责，用实际行动诠释委员担当。</div>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <img class="timeline-photo" src="images/timeline/timeline-08.jpg" alt="" loading="lazy">
+                <div class="timeline-year">2017-至今</div>
+                <div class="timeline-title">修身养性 · 初心不改</div>
+                <div class="timeline-text">开始接触致良知学习，逐渐克服傲心、学会谦卑待人，提升情绪管理能力。反思对家庭的亏欠，主动抽出时间关心家人，尽到为人子、为人夫、为人父的责任。将致良知理念融入企业管理，推广传统文化学习，增强团队凝聚力和向心力。未来，将继续秉承易氏家族优良传统，带领瀚海向智能制造方向发展，力争实现上市目标。</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================
+     板块 2：关于父亲
+     ================================================================ -->
+<section id="section2" class="section">
+    <div class="section-inner">
+        <h2 class="section-title">关于父亲</h2>
+        <p class="section-subtitle">About Father</p>
+        <div class="section-divider"></div>
+
+        <div class="about-grid">
+
+            <!-- 1. 爱好 -->
+            <div class="about-card fade-up">
+                <img class="about-card-photo" src="images/section2/hobby-微信图片_20260620221739_102_25.jpg" alt="爱好" loading="lazy">
+                <div class="about-card-icon">🏋️</div>
+                <div class="about-card-title">爱好</div>
+                <div class="about-card-text">锻炼、管理、传统文化</div>
+            </div>
+
+            <!-- 2. 目标与梦想 -->
+            <div class="about-card fade-up">
+                <div class="about-card-icon">🎯</div>
+                <div class="about-card-title">目标与梦想</div>
+                <div class="about-card-text">成立一家家族企业，成为名门望族</div>
+            </div>
+
+            <!-- 3. 取得成就 -->
+            <div class="about-card achievement fade-up">
+                <img class="about-card-photo" src="images/section2/achieve-微信图片_20260620221735_98_25.jpg" alt="取得成就" loading="lazy">
+                <div class="about-card-icon">🏆</div>
+                <div class="about-card-title">取得成就</div>
+                <div class="achievement-list">
+                    <div class="achievement-item">
+                        <strong>小平故里培优计划领军人才</strong>
+                        广安市高层次人才培育项目，代表在科技创业领域的突出贡献与行业引领地位
+                    </div>
+                    <div class="achievement-item">
+                        <strong>优秀政协委员</strong>
+                        彰显其在参政议政、服务地方发展方面的积极作为与良好口碑
+                    </div>
+                    <div class="achievement-item">
+                        <strong>推动产业发展先进个人</strong>
+                        肯定其在地方产业升级、经济建设中作出的重要贡献
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 座右铭 -->
+            <div class="about-card fade-up">
+                <div class="about-card-icon">📜</div>
+                <div class="about-card-title">座右铭</div>
+                <div class="about-card-text">踏实做事，诚实做人</div>
+            </div>
+
+            <!-- 5. 喜欢的美食 -->
+            <div class="about-card fade-up">
+                <div class="about-card-icon">🍽️</div>
+                <div class="about-card-title">喜欢的美食</div>
+                <div class="about-card-text">香辣的都喜欢</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================
+     板块 3：作为父亲的慈爱，作为儿子的温柔
+     ================================================================ -->
+<section id="section3" class="section">
+    <div class="section-inner">
+        <h2 class="section-title">作为父亲的慈爱，作为儿子的温柔</h2>
+        <p class="section-subtitle">Love as a Father · Tenderness as a Son</p>
+        <div class="section-divider"></div>
+
+        <div class="dual-panel">
+            <div class="panel panel-left fade-up">
+                <img class="panel-photo" src="images/section3/father.jpg" alt="为父亲" loading="lazy">
+                <div class="panel-label">· 为父 ·</div>
+                <div class="panel-title">厚重担当<br>护佑家庭</div>
+                <div class="panel-text">
+                    以如山之爱，为子女撑起一片天。<br>
+                    以润物无声，将家训传承下一代。
+                </div>
+            </div>
+            <div class="panel panel-right fade-up">
+                <img class="panel-photo" src="images/section3/children.jpg" alt="为子女" loading="lazy">
+                <div class="panel-label">· 为子 ·</div>
+                <div class="panel-title">温厚孝心<br>侍奉父亲</div>
+                <div class="panel-text">
+                    半生闯荡商海，不忘根本。<br>
+                    秉承易氏家风，忠孝传家。
+                </div>
+            </div>
+        </div>
+
+        <p style="text-align:center; margin-top:40px; font-size:17px; color:var(--gold-light); line-height:2; max-width:600px; margin-left:auto; margin-right:auto;" class="fade-up">
+            半生闯荡商海，易德忠以温厚孝心侍奉父亲，以厚重担当护佑家庭。
+        </p>
+    </div>
+</section>
+
+<!-- ================================================================
+     板块 4：父亲的精彩瞬间 — 3D 照片球体
+     ================================================================ -->
+<section id="section4" class="section">
+    <div class="section-inner" style="max-width:1100px;">
+        <h2 class="section-title">父亲的精彩瞬间</h2>
+        <p class="section-subtitle">Wonderful Moments</p>
+        <div class="section-divider"></div>
+
+        <div id="sphere-container">
+            <div class="sphere-loading" id="sphere-loading">加载照片中...</div>
+        </div>
+        <p class="sphere-hint">🖱 拖拽旋转 &nbsp;|&nbsp; 滚轮缩放 &nbsp;|&nbsp; 点击查看大图</p>
+    </div>
+</section>
+
+<!-- ================================================================
+     板块 5：儿女信封 — 视频
+     ================================================================ -->
+<section id="section5" class="section">
+    <div class="section-inner">
+        <h2 class="section-title">儿女信封</h2>
+        <p class="section-subtitle">Letters from Children</p>
+        <div class="section-divider"></div>
+
+        <!--
+        ★ 替换视频 ★
+        在下方 VIDEOS 数组中修改视频信息。
+        视频文件请放在 videos/ 文件夹中。
+        -->
+        <div class="video-grid" id="video-grid">
+            <!-- JS 动态生成 -->
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================
+     板块 6：最后告白
+     ================================================================ -->
+<section id="section6" class="section confession-section">
+    <canvas id="fireworks-canvas"></canvas>
+    <div class="section-inner">
+        <div class="confession-text">
+            <p class="confession-line" id="confession-line1">祝老爸</p>
+            <p class="confession-line highlight" id="confession-typewriter"></p>
+            <div class="confession-divider" id="confession-divider"></div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- ================================================================
+     灯箱（照片查看器）
+     ================================================================ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-content">
+        <button class="lightbox-close" id="lightbox-close" aria-label="关闭">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="上一张">‹</button>
+        <img class="lightbox-image" id="lightbox-image" src="" alt="">
+        <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="下一张">›</button>
+        <div class="lightbox-counter" id="lightbox-counter"></div>
+    </div>
+</div>
+
+<!-- ================================================================
+     视频弹窗
+     ================================================================ -->
+<div class="video-modal" id="video-modal" aria-hidden="true">
+    <div class="video-modal-content">
+        <button class="video-modal-close" id="video-modal-close" aria-label="关闭">&times;</button>
+        <div class="video-container">
+            <video id="video-player" controls playsinline preload="none"></video>
+        </div>
+        <div class="video-modal-title" id="video-modal-title"></div>
+    </div>
+</div>
+
+<!-- ================================================================
+     JavaScript 主体
+     ================================================================ -->
+<script>
+
+// ================================================================
+// 1. 开场粒子动画
+// ================================================================
+(function initHeroParticles() {
+    const canvas = document.getElementById('hero-particles');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const PARTICLE_COUNT = 80;
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 1.5 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.opacity = Math.random() * 0.6 + 0.1;
+            this.fadeSpeed = Math.random() * 0.005 + 0.002;
+            this.fadingIn = Math.random() > 0.5;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (this.fadingIn) {
+                this.opacity += this.fadeSpeed;
+                if (this.opacity >= 0.7) this.fadingIn = false;
+            } else {
+                this.opacity -= this.fadeSpeed;
+                if (this.opacity <= 0.1) this.fadingIn = true;
+            }
+
+            if (this.x < 0 || this.x > canvas.width ||
+                this.y < 0 || this.y > canvas.height) {
+                this.reset();
+            }
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(191,160,85,${this.opacity})`;
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new Particle());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+    }
+    animate();
+})();
+
+// ================================================================
+// 2. 导航系统：滚动监听 + 圆点更新
+// ================================================================
+(function initNavigation() {
+    const sections = document.querySelectorAll('.section');
+    const dots = document.querySelectorAll('.nav-dot');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                dots.forEach(dot => {
+                    const href = dot.getAttribute('href');
+                    dot.classList.toggle('active', href === '#' + id);
+                });
+            }
+        });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // 键盘导航
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            // 如果灯箱或视频弹窗开着，不处理
+            if (document.getElementById('lightbox').classList.contains('active') ||
+                document.getElementById('video-modal').classList.contains('active')) return;
+
+            e.preventDefault();
+            const current = Array.from(sections).findIndex(s => {
+                const rect = s.getBoundingClientRect();
+                return rect.top >= -100 && rect.top <= window.innerHeight * 0.6;
+            });
+
+            let target = current;
+            if (e.key === 'ArrowDown') target = Math.min(current + 1, sections.length - 1);
+            else target = Math.max(current - 1, 0);
+
+            sections[target].scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+})();
+
+// ================================================================
+// 3. 入场动画（Intersection Observer 驱动）
+// ================================================================
+(function initScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.fade-up, .about-card, .timeline-item, .panel');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // 为同一批进入的元素添加渐进延迟
+                const siblings = Array.from(entry.target.parentElement.children)
+                    .filter(c => c === entry.target || c.classList.contains('fade-up') ||
+                                c.classList.contains('about-card') || c.classList.contains('timeline-item') ||
+                                c.classList.contains('panel'));
+                const idx = siblings.indexOf(entry.target);
+                const delay = Math.min(idx * 100, 600);
+
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, delay);
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    animatedElements.forEach(el => observer.observe(el));
+})();
+
+// ================================================================
+// 4. 第六板块：最后告白 — 打字机 + 烟花
+// ================================================================
+(function initConfession() {
+    const section6 = document.getElementById('section6');
+    const line1 = document.getElementById('confession-line1');
+    const typewriter = document.getElementById('confession-typewriter');
+    const divider = document.getElementById('confession-divider');
+    const canvas = document.getElementById('fireworks-canvas');
+    const fullText = '父亲节快乐！';
+    let typed = false;
+
+    // ---- 烟花系统 ----
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let fireworks = [];
+        let particles = [];
+        let animFrame;
+        let isRunning = false;
+
+        function resizeCanvas() {
+            const rect = section6.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+
+        // 金色系颜色
+        const GOLD_COLORS = [
+            '#bfa055', '#d4c08c', '#e8d5a0', '#f0e6c8',
+            '#a08040', '#c9b870', '#dfc990', '#fff3d0',
+            '#f5dda0', '#e0c878', '#ffe8b0'
+        ];
+
+        class Particle {
+            constructor(x, y, color, angle, speed, size) {
+                this.x = x;
+                this.y = y;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.color = color;
+                this.size = size;
+                this.alpha = 1;
+                this.decay = 0.012 + Math.random() * 0.022;
+                this.gravity = 0.04;
+                this.trail = [];
+            }
+            update() {
+                this.trail.push({ x: this.x, y: this.y, alpha: this.alpha });
+                if (this.trail.length > 4) this.trail.shift();
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity;
+                this.vx *= 0.99;
+                this.alpha -= this.decay;
+            }
+            draw(ctx) {
+                // 拖尾
+                for (let i = 0; i < this.trail.length; i++) {
+                    const t = this.trail[i];
+                    ctx.beginPath();
+                    ctx.arc(t.x, t.y, this.size * 0.5, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color.replace(')', `,${t.alpha * 0.3})`).replace('rgb', 'rgba');
+                    if (this.color.startsWith('#')) {
+                        ctx.fillStyle = this.color + Math.round(t.alpha * 0.3 * 255).toString(16).padStart(2, '0');
+                    }
+                    ctx.fill();
+                }
+                // 主体
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.alpha;
+                ctx.fill();
+                // 光晕
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+                const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2.5);
+                grad.addColorStop(0, this.color);
+                grad.addColorStop(1, 'transparent');
+                ctx.fillStyle = grad;
+                ctx.globalAlpha = this.alpha * 0.35;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+            get dead() { return this.alpha <= 0; }
+        }
+
+        class Firework {
+            constructor(canvasW, canvasH) {
+                // 从底部随机位置发射
+                this.x = canvasW * 0.2 + Math.random() * canvasW * 0.6;
+                this.y = canvasH;
+                this.targetY = canvasH * 0.15 + Math.random() * canvasH * 0.45;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = -(8 + Math.random() * 7);
+                this.particles = [];
+                this.exploded = false;
+                this.trailParticles = [];
+                this.alpha = 1;
+            }
+            update(canvasW, canvasH) {
+                if (!this.exploded) {
+                    // 上升阶段拖尾
+                    this.trailParticles.push({
+                        x: this.x, y: this.y,
+                        alpha: 0.8, size: 1.5 + Math.random()
+                    });
+                    if (this.trailParticles.length > 15) this.trailParticles.shift();
+
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vy += 0.03; // 减速
+
+                    if (this.y <= this.targetY) {
+                        this.explode();
+                    }
+                }
+                // 更新爆炸粒子
+                this.particles.forEach(p => p.update());
+                this.particles = this.particles.filter(p => !p.dead);
+                // 更新拖尾
+                this.trailParticles.forEach(t => t.alpha -= 0.05);
+                this.trailParticles = this.trailParticles.filter(t => t.alpha > 0);
+            }
+            explode() {
+                this.exploded = true;
+                const count = 80 + Math.floor(Math.random() * 80); // 80-160 粒子
+                const color = GOLD_COLORS[Math.floor(Math.random() * GOLD_COLORS.length)];
+
+                // 主圆形爆炸
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 / count) * i + (Math.random() - 0.5) * 0.3;
+                    const speed = 2 + Math.random() * 5;
+                    const size = 1 + Math.random() * 2.5;
+                    const c = Math.random() < 0.6 ? color : GOLD_COLORS[Math.floor(Math.random() * GOLD_COLORS.length)];
+                    this.particles.push(new Particle(this.x, this.y, c, angle, speed, size));
+                }
+
+                // 内圈小粒子（更亮）
+                for (let i = 0; i < 30; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 0.5 + Math.random() * 2;
+                    this.particles.push(new Particle(this.x, this.y, '#fff3d0', angle, speed, 0.8 + Math.random()));
+                }
+            }
+            draw(ctx) {
+                // 拖尾
+                this.trailParticles.forEach(t => {
+                    ctx.beginPath();
+                    ctx.arc(t.x, t.y, t.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(191,160,85,${t.alpha})`;
+                    ctx.fill();
+                });
+                // 未爆炸的火箭
+                if (!this.exploded) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff3d0';
+                    ctx.shadowColor = 'rgba(212,192,140,0.8)';
+                    ctx.shadowBlur = 12;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+                // 爆炸粒子
+                this.particles.forEach(p => p.draw(ctx));
+            }
+            get dead() {
+                return this.exploded && this.particles.length === 0 && this.trailParticles.length === 0;
+            }
+        }
+
+        function launchFirework() {
+            resizeCanvas();
+            fireworks.push(new Firework(canvas.width, canvas.height));
+        }
+
+        function animate() {
+            if (!isRunning) return;
+            resizeCanvas();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            fireworks.forEach(f => {
+                f.update(canvas.width, canvas.height);
+                f.draw(ctx);
+            });
+            fireworks = fireworks.filter(f => !f.dead);
+
+            animFrame = requestAnimationFrame(animate);
+        }
+
+        function startFireworks() {
+            if (isRunning) return;
+            isRunning = true;
+            resizeCanvas();
+            animate();
+
+            // 第一波：立即发射3发
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => launchFirework(), i * 300);
+            }
+            // 持续发射
+            const intervalId = setInterval(() => {
+                if (!isRunning) { clearInterval(intervalId); return; }
+                launchFirework();
+            }, 1200);
+            // 存储以便停止
+            canvas._fwInterval = intervalId;
+        }
+
+        function stopFireworks() {
+            isRunning = false;
+            if (animFrame) cancelAnimationFrame(animFrame);
+            if (canvas._fwInterval) clearInterval(canvas._fwInterval);
+            fireworks = [];
+            particles = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // 监听section6可见性
+        const fwObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                startFireworks();
+            } else {
+                stopFireworks();
+            }
+        }, { threshold: 0.3 });
+        fwObserver.observe(section6);
+
+        window.addEventListener('resize', resizeCanvas);
+    }
+
+    // ---- 打字机效果 ----
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !typed) {
+            typed = true;
+
+            // 第一步：显示"祝老爸"
+            setTimeout(() => {
+                line1.classList.add('visible');
+            }, 200);
+
+            // 第二步：逐字显示"父亲节快乐！"
+            setTimeout(() => {
+                typewriter.classList.add('visible');
+                let charIndex = 0;
+                const typeInterval = setInterval(() => {
+                    typewriter.textContent += fullText[charIndex];
+                    charIndex++;
+                    if (charIndex >= fullText.length) {
+                        clearInterval(typeInterval);
+                        // 第三步：显示金色分割线
+                        setTimeout(() => {
+                            divider.classList.add('visible');
+                        }, 300);
+                    }
+                }, 180);
+            }, 800);
+
+            observer.unobserve(section6);
+        }
+    }, { threshold: 0.5 });
+
+    if (section6) observer.observe(section6);
+})();
+
+// ================================================================
+// 5. 3D 照片球体 (Three.js)
+// ================================================================
+(async function initPhotoSphere() {
+    const container = document.getElementById('sphere-container');
+    const loadingEl = document.getElementById('sphere-loading');
+    if (!container) return;
+
+    // ---- 配置 ----
+    const TOTAL_PHOTOS = 97;           // ★ 照片总数，可根据实际情况修改
+    const SPHERE_RADIUS = 8;
+    const PHOTO_SIZE = 1.4;
+    const isMobile = window.innerWidth < 768;
+    const ACTUAL_PHOTOS = isMobile ? Math.min(TOTAL_PHOTOS, 50) : TOTAL_PHOTOS;
+
+    // ---- 动态导入 Three.js ----
+    const [{default: THREE}, {OrbitControls}] = await Promise.all([
+        import('three'),
+        import('three/addons/controls/OrbitControls.js')
+    ]);
+
+    // ---- 场景、相机、渲染器 ----
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.5, 50);
+    camera.position.set(0, 0, 16);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+    renderer.domElement.style.touchAction = 'none';
+
+    // ---- OrbitControls ----
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0, 0);
+    controls.enablePan = false;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.4;
+    controls.minDistance = 5;
+    controls.maxDistance = 22;
+    controls.maxPolarAngle = Math.PI * 0.85;
+    controls.minPolarAngle = Math.PI * 0.15;
+    controls.update();
+
+    // ---- 生成占位纹理 ----
+    function createPlaceholderTexture(index) {
+        const size = 256;
+        const c = document.createElement('canvas');
+        c.width = size; c.height = size;
+        const ctx = c.getContext('2d');
+
+        // 深色渐变背景
+        const grad = ctx.createLinearGradient(0, 0, size, size);
+        grad.addColorStop(0, '#1a1a0d');
+        grad.addColorStop(0.5, '#0d0d08');
+        grad.addColorStop(1, '#1a1a0d');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, size, size);
+
+        // 金色边框
+        ctx.strokeStyle = 'rgba(191,160,85,0.3)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(8, 8, size - 16, size - 16);
+
+        // 中心金色光点
+        const cx = size / 2, cy = size / 2;
+        const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 40);
+        glow.addColorStop(0, 'rgba(212,192,140,0.5)');
+        glow.addColorStop(1, 'rgba(212,192,140,0)');
+        ctx.fillStyle = glow;
+        ctx.fillRect(cx - 40, cy - 40, 80, 80);
+
+        ctx.fillStyle = '#bfa055';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 编号
+        ctx.fillStyle = 'rgba(140,133,124,0.4)';
+        ctx.font = '20px "Cormorant Garamond", Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(String(index + 1), cx, cy + 50);
+
+        const tex = new THREE.CanvasTexture(c);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        return tex;
+    }
+
+    // ---- Fibonacci 球面分布 ----
+    function fibonacciSphere(n, radius) {
+        const points = [];
+        const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+        for (let i = 0; i < n; i++) {
+            const y = 1 - (i / (n - 1)) * 2;
+            const radiusAtY = Math.sqrt(1 - y * y);
+            const theta = goldenAngle * i;
+            points.push({
+                x: Math.cos(theta) * radiusAtY * radius,
+                y: y * radius,
+                z: Math.sin(theta) * radiusAtY * radius
+            });
+        }
+        return points;
+    }
+
+    // ---- 创建球体上的照片平面 ----
+    const sphereGroup = new THREE.Group();
+    scene.add(sphereGroup);
+
+    const positions = fibonacciSphere(ACTUAL_PHOTOS, SPHERE_RADIUS);
+    const placeholderTex = createPlaceholderTexture(0);
+    const photoPlanes = [];
+
+    positions.forEach((pos, i) => {
+        const geometry = new THREE.PlaneGeometry(PHOTO_SIZE, PHOTO_SIZE);
+        const material = new THREE.MeshBasicMaterial({
+            map: i === 0 ? placeholderTex : placeholderTex.clone(),
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.9,
+            depthWrite: true,
+        });
+        const plane = new THREE.Mesh(geometry, material);
+        plane.position.set(pos.x, pos.y, pos.z);
+        // 面朝球心外侧
+        const outward = new THREE.Vector3(pos.x, pos.y, pos.z).normalize();
+        plane.lookAt(outward.x * 2, outward.y * 2, outward.z * 2);
+        plane.userData = { photoIndex: i };
+        sphereGroup.add(plane);
+        photoPlanes.push(plane);
+    });
+
+    // ---- 金色粒子环 ----
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 80;
+    const particlePositionsArr = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const r = SPHERE_RADIUS + 1.2 + Math.random() * 3;
+        particlePositionsArr[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        particlePositionsArr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        particlePositionsArr[i * 3 + 2] = r * Math.cos(phi);
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositionsArr, 3));
+    const particleMat = new THREE.PointsMaterial({
+        color: 0xbfa055,
+        size: 0.06,
+        transparent: true,
+        opacity: 0.5,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+    });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    sphereGroup.add(particles);
+
+    // ---- 渐进式纹理加载 ----
+    const loader = new THREE.TextureLoader();
+    let loadedCount = 0;
+    const BATCH_SIZE = 5;
+    const BATCH_DELAY = 120;
+
+    function loadBatch(startIndex) {
+        const endIndex = Math.min(startIndex + BATCH_SIZE, ACTUAL_PHOTOS);
+        let batchDone = 0;
+
+        for (let i = startIndex; i < endIndex; i++) {
+            const photoName = 'photo-' + String(i + 1).padStart(3, '0') + '.jpg';
+            const folder = isMobile ? 'thumbnails-mobile' : 'thumbnails';
+            const url = './images/photos/' + folder + '/' + photoName;
+
+            loader.load(
+                url,
+                (texture) => {
+                    texture.colorSpace = THREE.SRGBColorSpace;
+                    photoPlanes[i].material.map = texture;
+                    photoPlanes[i].material.needsUpdate = true;
+                    loadedCount++;
+                    batchDone++;
+                    loadingEl.textContent = '加载照片中... ' + loadedCount + '/' + ACTUAL_PHOTOS;
+                    if (batchDone === (endIndex - startIndex) && endIndex < ACTUAL_PHOTOS) {
+                        setTimeout(() => loadBatch(endIndex), BATCH_DELAY);
+                    } else if (loadedCount >= ACTUAL_PHOTOS) {
+                        loadingEl.style.display = 'none';
+                    }
+                },
+                undefined,
+                () => {
+                    // 加载失败：保留占位图
+                    batchDone++;
+                    loadedCount++;
+                    if (batchDone === (endIndex - startIndex) && endIndex < ACTUAL_PHOTOS) {
+                        setTimeout(() => loadBatch(endIndex), BATCH_DELAY);
+                    } else if (loadedCount >= ACTUAL_PHOTOS) {
+                        loadingEl.style.display = 'none';
+                    }
+                }
+            );
+        }
+    }
+
+    // 延迟开始加载，让页面先渲染
+    setTimeout(() => loadBatch(0), 500);
+
+    // ---- 渲染循环（仅球体可见时） ----
+    let isSphereVisible = false;
+    const sphereObserver = new IntersectionObserver((entries) => {
+        isSphereVisible = entries[0].isIntersecting;
+    }, { threshold: 0.05 });
+    sphereObserver.observe(container);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        if (isSphereVisible) {
+            controls.update();
+            // 粒子缓慢自转（比主球体快一点）
+            particles.rotation.y += 0.0003;
+            particles.rotation.x += 0.0001;
+            renderer.render(scene, camera);
+        }
+    }
+    animate();
+
+    // ---- 响应窗口大小变化 ----
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    // ---- 点击检测 (Raycaster) ----
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let mouseDownPos = { x: 0, y: 0 };
+    let mouseUpPos = { x: 0, y: 0 };
+
+    renderer.domElement.addEventListener('pointerdown', (e) => {
+        mouseDownPos = { x: e.clientX, y: e.clientY };
+    });
+
+    renderer.domElement.addEventListener('pointerup', (e) => {
+        mouseUpPos = { x: e.clientX, y: e.clientY };
+        const dx = mouseUpPos.x - mouseDownPos.x;
+        const dy = mouseUpPos.y - mouseDownPos.y;
+        const moved = Math.sqrt(dx * dx + dy * dy);
+
+        // 移动超过 5px 视为拖拽，不触发点击
+        if (moved > 5) return;
+
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(photoPlanes);
+
+        if (intersects.length > 0) {
+            const photoIndex = intersects[0].object.userData.photoIndex;
+            openLightbox(photoIndex);
+        }
+    });
+
+    // ---- 防止球体上的滚动传播 ----
+    renderer.domElement.addEventListener('wheel', (e) => {
+        e.stopPropagation();
+    }, { passive: false });
+
+    // ---- 暴露到全局 ----
+    window._sphereData = { photoPlanes, ACTUAL_PHOTOS, TOTAL_PHOTOS };
+})();
+
+// ================================================================
+// 6. 灯箱功能
+// ================================================================
+let currentPhotoIndex = 0;
+
+function openLightbox(index) {
+    currentPhotoIndex = index;
+    const lightbox = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-image');
+    const counter = document.getElementById('lightbox-counter');
+    const total = window._sphereData ? window._sphereData.TOTAL_PHOTOS : 100;
+
+    const photoName = 'photo-' + String(index + 1).padStart(3, '0') + '.jpg';
+    img.src = './images/photos/full/' + photoName;
+    counter.textContent = (index + 1) + ' / ' + total;
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+function navigateLightbox(direction) {
+    const total = window._sphereData ? window._sphereData.TOTAL_PHOTOS : 100;
+    currentPhotoIndex = (currentPhotoIndex + direction + total) % total;
+    const photoName = 'photo-' + String(currentPhotoIndex + 1).padStart(3, '0') + '.jpg';
+    const img = document.getElementById('lightbox-image');
+    const counter = document.getElementById('lightbox-counter');
+    img.src = './images/photos/full/' + photoName;
+    counter.textContent = (currentPhotoIndex + 1) + ' / ' + total;
+}
+
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
+document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
+document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+});
+
+// 灯箱键盘控制
+document.addEventListener('keydown', (e) => {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+});
+
+// ================================================================
+// 7. 视频板块
+// ================================================================
+
+// ★★★ 在这里修改你的视频信息 ★★★
+const VIDEOS = [
+    {
+        title: '儿女信封 · 一',
+        subtitle: '',
+        filename: 'video-001.mp4',
+        poster: ''
+    },
+    {
+        title: '儿女信封 · 二',
+        subtitle: '',
+        filename: 'video-002.mp4',
+        poster: ''
+    }
+];
+// ★★★ 以上是视频配置，修改后刷新页面即可 ★★★
+
+(function initVideoSection() {
+    const grid = document.getElementById('video-grid');
+    if (!grid) return;
+
+    // 两个视频各自独特的装饰图标
+    const bgSVGs = [
+        // 视频1：信封 + 封蜡
+        `<svg class="envelope-bg-svg" viewBox="0 0 60 60">
+            <rect x="6" y="14" width="48" height="34" rx="3"/>
+            <polyline points="6,14 30,32 54,14"/>
+            <circle cx="30" cy="28" r="5" fill="rgba(191,160,85,0.2)" stroke="rgba(191,160,85,0.3)" stroke-width="1"/>
+        </svg>`,
+        // 视频2：打开信封 + 爱心
+        `<svg class="envelope-bg-svg" viewBox="0 0 60 60">
+            <rect x="6" y="20" width="48" height="30" rx="3"/>
+            <polyline points="6,20 30,35 54,20"/>
+            <path d="M24 48 L30 38 L36 48" stroke="rgba(191,160,85,0.3)" stroke-width="1.5" fill="none"/>
+            <circle cx="30" cy="9" r="6" fill="rgba(191,160,85,0.1)" stroke="rgba(191,160,85,0.25)" stroke-width="1"/>
+        </svg>`
+    ];
+
+    VIDEOS.forEach((video, index) => {
+        const card = document.createElement('div');
+        card.className = 'envelope-card fade-up';
+
+        card.innerHTML = `
+            <div class="envelope-icon">
+                ${bgSVGs[index] || bgSVGs[0]}
+                <div class="envelope-play-btn"></div>
+                <div class="envelope-tip">点击播放</div>
+            </div>
+            <div class="envelope-label">${video.title}</div>
+            ${video.subtitle ? `<div class="envelope-sublabel">${video.subtitle}</div>` : ''}
+        `;
+
+        card.addEventListener('click', () => openVideoModal(index));
+        grid.appendChild(card);
+    });
+})();
+
+function openVideoModal(index) {
+    const video = VIDEOS[index];
+    const modal = document.getElementById('video-modal');
+    const player = document.getElementById('video-player');
+    const title = document.getElementById('video-modal-title');
+
+    player.src = './videos/' + video.filename;
+    if (video.poster) player.poster = video.poster;
+    title.textContent = video.title;
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    player.play().catch(() => {});
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('video-modal');
+    const player = document.getElementById('video-player');
+    player.pause();
+    player.src = '';
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+document.getElementById('video-modal-close').addEventListener('click', closeVideoModal);
+document.getElementById('video-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeVideoModal();
+});
+
+document.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('video-modal');
+    if (modal.classList.contains('active') && e.key === 'Escape') {
+        closeVideoModal();
+    }
+});
+
+// ================================================================
+// 8. 背景音乐控制 — 自动播放
+// ================================================================
+(function initMusic() {
+    const audio = document.getElementById('bgm-audio');
+    const btn = document.getElementById('music-toggle');
+    if (!audio || !btn) return;
+
+    audio.volume = 0.4;
+
+    function playMusic() {
+        audio.play().then(() => {
+            btn.classList.remove('muted');
+            btn.classList.add('playing');
+            btn.setAttribute('aria-label', '暂停音乐');
+            btn.title = '背景音乐播放中 · 点击暂停';
+        }).catch(() => {
+            btn.classList.add('muted');
+            btn.classList.remove('playing');
+            btn.setAttribute('aria-label', '播放音乐');
+            btn.title = '点击播放背景音乐';
+        });
+    }
+
+    function pauseMusic() {
+        audio.pause();
+        btn.classList.add('muted');
+        btn.classList.remove('playing');
+        btn.setAttribute('aria-label', '播放音乐');
+        btn.title = '点击播放背景音乐';
+    }
+
+    // 音乐开关点击
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (audio.paused) {
+            playMusic();
+        } else {
+            pauseMusic();
+        }
+    });
+
+    // 多种时机尝试自动播放
+    playMusic(); // 立即尝试
+
+    // 音频可播放时再试
+    audio.addEventListener('canplay', () => {
+        if (audio.paused) playMusic();
+    });
+
+    // 音频数据加载足够时尝试
+    audio.addEventListener('loadeddata', () => {
+        if (audio.paused) playMusic();
+    });
+
+    // 用户首次与页面交互时自动尝试（解决浏览器限制）
+    function onUserInteraction() {
+        if (audio.paused) playMusic();
+    }
+    document.addEventListener('click', onUserInteraction, { once: true });
+    document.addEventListener('touchstart', onUserInteraction, { once: true });
+    document.addEventListener('scroll', onUserInteraction, { once: true });
+    document.addEventListener('keydown', onUserInteraction, { once: true });
+})();
+
+// ================================================================
+// 9. 响应式处理
+// ================================================================
+console.log('✅ 易德忠纪念网站已就绪');
+console.log('   - 6个板块全部加载');
+console.log('   - 3D照片球体：' + (window._sphereData ? window._sphereData.ACTUAL_PHOTOS : '加载中') + ' 张照片');
+console.log('   - 视频：' + VIDEOS.length + ' 个');
+console.log('');
+console.log('💡 提示：');
+console.log('   1. 将照片放入 images/photos/thumbnails/ 文件夹（命名：photo-001.jpg ~ photo-097.jpg）');
+console.log('   2. 将大图放入 images/photos/full/ 文件夹');
+console.log('   3. 将视频放入 videos/ 文件夹');
+console.log('   4. 修改上方 VIDEOS 数组来更新视频信息');
+</script>
+
+</body>
+</html>
