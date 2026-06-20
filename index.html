@@ -593,6 +593,21 @@ main {
     border: 1px solid rgba(191,160,85,0.2);
     transition: all 0.35s ease;
     position: relative;
+    background: #111108;
+}
+
+/* 未加载占位的微光 */
+.photo-wall-item:empty::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(191,160,85,0.04) 50%, transparent 60%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .photo-wall-item img {
@@ -1268,7 +1283,7 @@ main {
 <body>
 
 <!-- ===== 背景音乐 ===== -->
-<audio id="bgm-audio" src="audio/bgm.m4a" loop preload="auto"></audio>
+<audio id="bgm-audio" src="audio/bgm.m4a" loop preload="none"></audio>
 
 <!-- ===== 音乐开关 ===== -->
 <button class="music-toggle playing" id="music-toggle" aria-label="暂停音乐" title="背景音乐播放中">
@@ -1996,22 +2011,72 @@ main {
 })();
 
 // ================================================================
-// 5. 照片墙
+// 5. 照片墙 — 渐进懒加载
 // ================================================================
 (function initPhotoWall() {
     const wall = document.getElementById('photo-wall');
     if (!wall) return;
 
     const TOTAL_PHOTOS = 97;
+    const INITIAL_LOAD = 15; // 首屏立即加载15张
+    let loadedCount = 0;
+    const items = [];
 
+    // 创建所有照片占位
     for (let i = 0; i < TOTAL_PHOTOS; i++) {
-        const photoName = 'photo-' + String(i + 1).padStart(3, '0') + '.jpg';
         const item = document.createElement('div');
         item.className = 'photo-wall-item fade-up';
         item.setAttribute('data-index', String(i + 1));
-        item.innerHTML = `<img src="./images/photos/thumbnails/${photoName}" alt="照片 ${i + 1}" loading="lazy" onerror="this.parentElement.style.display='none'">`;
+        item.style.background = '#111108';
         item.addEventListener('click', () => openLightbox(i));
         wall.appendChild(item);
+        items.push(item);
+    }
+
+    // 加载单张照片
+    function loadPhoto(index) {
+        if (index < 0 || index >= TOTAL_PHOTOS) return;
+        const item = items[index];
+        if (item.querySelector('img')) return; // 已加载
+
+        const photoName = 'photo-' + String(index + 1).padStart(3, '0') + '.jpg';
+        const img = document.createElement('img');
+        img.src = './images/photos/thumbnails/' + photoName;
+        img.alt = '照片 ' + (index + 1);
+        img.onload = () => { loadedCount++; };
+        img.onerror = () => { item.style.display = 'none'; };
+        item.appendChild(img);
+    }
+
+    // 分批加载：首屏 + 后续
+    function loadBatch(start, count) {
+        for (let i = start; i < start + count && i < TOTAL_PHOTOS; i++) {
+            loadPhoto(i);
+        }
+    }
+
+    // 首屏立即加载
+    loadBatch(0, INITIAL_LOAD);
+
+    // IntersectionObserver 滚动加载其余
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const idx = items.indexOf(entry.target);
+                    if (idx >= 0) loadPhoto(idx);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '300px' });
+
+        // 观察所有未加载的照片
+        items.forEach((item, i) => {
+            if (i >= INITIAL_LOAD) observer.observe(item);
+        });
+    } else {
+        // 降级：全部加载
+        loadBatch(INITIAL_LOAD, TOTAL_PHOTOS - INITIAL_LOAD);
     }
 
     window._sphereData = { TOTAL_PHOTOS: TOTAL_PHOTOS, ACTUAL_PHOTOS: TOTAL_PHOTOS };
