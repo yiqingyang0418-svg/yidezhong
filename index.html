@@ -20,10 +20,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
-<!-- ===== Three.js 经典加载（兼容本地双击打开） ===== -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.150.0/examples/js/controls/OrbitControls.js"></script>
-
 <style>
 /* ================================================================
    全局变量 & 基础样式
@@ -556,43 +552,83 @@ main {
 }
 
 /* ================================================================
-   板块 4：父亲的精彩瞬间 — 3D 照片球体
+   板块 4：父亲的精彩瞬间 — 照片墙
    ================================================================ */
-#sphere-container {
-    width: 100%;
-    height: 65vh;
-    height: 65dvh;
-    cursor: grab;
-    position: relative;
-    border-radius: 16px;
+.photo-wall-scroll {
+    max-height: 65vh;
+    max-height: 65dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    padding: 8px;
+    /* 自定义滚动条 */
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-dark) var(--bg-deep);
+}
+
+.photo-wall-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.photo-wall-scroll::-webkit-scrollbar-track {
+    background: var(--bg-deep);
+}
+
+.photo-wall-scroll::-webkit-scrollbar-thumb {
+    background: var(--gold-dark);
+    border-radius: 3px;
+}
+
+.photo-wall {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.photo-wall-item {
+    aspect-ratio: 1;
     overflow: hidden;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid rgba(191,160,85,0.2);
+    transition: all 0.35s ease;
+    position: relative;
 }
 
-#sphere-container:active {
-    cursor: grabbing;
+.photo-wall-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
 
-#sphere-container canvas {
-    display: block;
-}
-
-.sphere-loading {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: 1px;
+.photo-wall-item:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 24px rgba(191,160,85,0.3);
+    transform: translateY(-3px);
     z-index: 2;
 }
 
-.sphere-hint {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
+.photo-wall-item:hover img {
+    transform: scale(1.08);
+}
+
+/* 照片序号角标 */
+.photo-wall-item::after {
+    content: attr(data-index);
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+    font-size: 10px;
+    color: rgba(232,228,220,0.6);
+    font-family: var(--font-en);
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-wall-item:hover::after {
+    opacity: 1;
 }
 
 /* ================================================================
@@ -601,8 +637,8 @@ main {
 .video-grid {
     display: flex;
     justify-content: center;
-    gap: 60px;
-    max-width: 800px;
+    gap: 50px;
+    max-width: 700px;
     margin: 0 auto;
     flex-wrap: wrap;
 }
@@ -622,90 +658,77 @@ main {
     transform: translateY(0);
 }
 
-/* 大尺寸视频图标容器 */
 .envelope-icon {
-    width: 200px;
-    height: 200px;
-    border-radius: 24px;
-    background: linear-gradient(145deg, #141410 0%, #0e0e0c 100%);
-    border: 2px solid rgba(191,160,85,0.4);
+    width: 180px;
+    height: 180px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #1a1a10 0%, #10100c 100%);
+    border: 2px solid rgba(191,160,85,0.45);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.4s ease;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(191,160,85,0.05);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
 }
 
-/* 背景光晕 */
 .envelope-icon::before {
     content: '';
     position: absolute;
-    inset: -40px;
-    border-radius: 50%;
-    background: radial-gradient(circle at center, rgba(191,160,85,0.06) 0%, transparent 60%);
-    transition: all 0.5s ease;
-}
-
-.envelope-card:hover .envelope-icon::before {
-    transform: scale(1.2);
-    background: radial-gradient(circle at center, rgba(191,160,85,0.15) 0%, transparent 60%);
+    inset: 0;
+    border-radius: 18px;
+    background: radial-gradient(circle at center, rgba(191,160,85,0.08) 0%, transparent 60%);
 }
 
 .envelope-card:hover .envelope-icon {
     border-color: var(--gold);
-    box-shadow: 0 0 50px rgba(191,160,85,0.25), 0 12px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 0 40px rgba(191,160,85,0.3), 0 12px 40px rgba(0,0,0,0.6);
     transform: translateY(-6px);
 }
 
-/* 信封装饰SVG（半透明背景） */
 .envelope-icon .envelope-bg-svg {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    stroke: rgba(191,160,85,0.12);
+    width: 90px;
+    height: 90px;
+    stroke: rgba(191,160,85,0.1);
     fill: none;
     stroke-width: 1;
     pointer-events: none;
 }
 
-/* 大播放按钮 */
 .envelope-play-btn {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background: rgba(191,160,85,0.15);
+    background: rgba(191,160,85,0.2);
     border: 2.5px solid var(--gold);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-    transition: all 0.4s ease;
+    transition: all 0.35s ease;
     animation: playPulse 2.5s ease-in-out infinite;
 }
 
 @keyframes playPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(191,160,85,0.3); }
-    50%      { box-shadow: 0 0 0 18px rgba(191,160,85,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(191,160,85,0.35); }
+    50%      { box-shadow: 0 0 0 16px rgba(191,160,85,0); }
 }
 
 .envelope-card:hover .envelope-play-btn {
     background: var(--gold);
-    border-color: var(--gold-light);
     animation: none;
-    box-shadow: 0 0 36px rgba(191,160,85,0.5);
+    box-shadow: 0 0 30px rgba(191,160,85,0.5);
     transform: scale(1.1);
 }
 
-/* 播放三角 */
 .envelope-play-btn::after {
     content: '';
     width: 0; height: 0;
     border-style: solid;
-    border-width: 14px 0 14px 22px;
+    border-width: 12px 0 12px 20px;
     border-color: transparent transparent transparent var(--gold);
-    margin-left: 5px;
+    margin-left: 4px;
     transition: border-color 0.3s ease;
 }
 
@@ -713,27 +736,18 @@ main {
     border-color: transparent transparent transparent var(--bg-deep);
 }
 
-/* 标签 */
 .envelope-label {
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 18px;
     font-weight: 700;
     color: var(--gold-light);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-align: center;
 }
 
-.envelope-sublabel {
-    margin-top: 4px;
-    font-size: 13px;
-    color: var(--text-muted);
-    letter-spacing: 0.12em;
-}
-
-/* 底部提示文字 */
 .envelope-tip {
     position: absolute;
-    bottom: -30px;
+    bottom: -26px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 11px;
@@ -980,38 +994,54 @@ main {
    ================================================================ */
 .music-toggle {
     position: fixed;
-    bottom: 24px;
-    left: 24px;
+    top: 24px;
+    right: 24px;
     z-index: 1000;
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    background: rgba(17,17,17,0.85);
-    border: 1px solid rgba(191,160,85,0.3);
+    background: rgba(17,17,17,0.9);
+    border: 2px solid rgba(191,160,85,0.5);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.35s ease;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
+    animation: musicPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(191,160,85,0.4); }
+    50%      { box-shadow: 0 0 0 16px rgba(191,160,85,0); }
 }
 
 .music-toggle:hover {
-    border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(191,160,85,0.2);
+    border-color: var(--gold-light);
+    box-shadow: 0 0 28px rgba(191,160,85,0.35);
+    animation: none;
 }
 
 .music-toggle svg {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     fill: none;
     stroke: var(--gold);
     stroke-width: 2;
     transition: all 0.3s ease;
 }
 
+.music-toggle.playing {
+    animation: musicPulse 2.5s ease-in-out infinite;
+}
+
 .music-toggle.playing svg {
     stroke: var(--gold-light);
+}
+
+.music-toggle.muted {
+    animation: none;
+    opacity: 0.7;
 }
 
 .music-toggle.muted .music-wave {
@@ -1022,11 +1052,11 @@ main {
     content: '';
     position: absolute;
     width: 2px;
-    height: 18px;
+    height: 22px;
     background: var(--gold);
     transform: rotate(-45deg);
     border-radius: 1px;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 /* ================================================================
@@ -1147,10 +1177,15 @@ main {
         height: clamp(120px, 35vw, 180px);
     }
 
-    /* 3D球体 */
-    #sphere-container {
-        height: 50vh;
-        height: 50dvh;
+    /* 照片墙 */
+    .photo-wall {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+
+    .photo-wall-scroll {
+        max-height: 55vh;
+        max-height: 55dvh;
     }
 
     /* 视频信封 */
@@ -1456,7 +1491,7 @@ main {
 </section>
 
 <!-- ================================================================
-     板块 4：父亲的精彩瞬间 — 3D 照片球体
+     板块 4：父亲的精彩瞬间 — 照片墙
      ================================================================ -->
 <section id="section4" class="section">
     <div class="section-inner" style="max-width:1100px;">
@@ -1464,10 +1499,12 @@ main {
         <p class="section-subtitle">Wonderful Moments</p>
         <div class="section-divider"></div>
 
-        <div id="sphere-container">
-            <div class="sphere-loading" id="sphere-loading">加载照片中...</div>
+        <div class="photo-wall-scroll" id="photo-wall-scroll">
+            <div class="photo-wall" id="photo-wall">
+                <!-- JS 动态生成 97 张照片 -->
+            </div>
         </div>
-        <p class="sphere-hint">🖱 拖拽旋转 &nbsp;|&nbsp; 滚轮缩放 &nbsp;|&nbsp; 点击查看大图</p>
+        <p style="text-align:center;margin-top:12px;font-size:12px;color:var(--text-muted);">点击照片查看大图</p>
     </div>
 </section>
 
@@ -1944,281 +1981,25 @@ main {
 })();
 
 // ================================================================
-// 5. 3D 照片球体 (Three.js)
+// 5. 照片墙
 // ================================================================
-(function initPhotoSphere() {
-    const container = document.getElementById('sphere-container');
-    const loadingEl = document.getElementById('sphere-loading');
-    if (!container) return;
+(function initPhotoWall() {
+    const wall = document.getElementById('photo-wall');
+    if (!wall) return;
 
-    // 检查 Three.js 是否加载成功
-    if (typeof THREE === 'undefined') {
-        loadingEl.textContent = 'Three.js 加载失败，请检查网络连接';
-        return;
+    const TOTAL_PHOTOS = 97;
+
+    for (let i = 0; i < TOTAL_PHOTOS; i++) {
+        const photoName = 'photo-' + String(i + 1).padStart(3, '0') + '.jpg';
+        const item = document.createElement('div');
+        item.className = 'photo-wall-item fade-up';
+        item.setAttribute('data-index', String(i + 1));
+        item.innerHTML = `<img src="./images/photos/thumbnails/${photoName}" alt="照片 ${i + 1}" loading="lazy" onerror="this.parentElement.style.display='none'">`;
+        item.addEventListener('click', () => openLightbox(i));
+        wall.appendChild(item);
     }
 
-    // ---- 配置 ----
-    const TOTAL_PHOTOS = 97;           // ★ 照片总数，可根据实际情况修改
-    const SPHERE_RADIUS = 8;
-    const PHOTO_SIZE = 1.4;
-    const isMobile = window.innerWidth < 768;
-    const ACTUAL_PHOTOS = isMobile ? Math.min(TOTAL_PHOTOS, 50) : TOTAL_PHOTOS;
-
-    // ---- 使用全局 THREE ----
-    const OrbitControls = THREE.OrbitControls;
-
-    // ---- 场景、相机、渲染器 ----
-    const scene = new THREE.Scene();
-
-    const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.5, 50);
-    camera.position.set(0, 0, 16);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    container.appendChild(renderer.domElement);
-    renderer.domElement.style.touchAction = 'none';
-
-    // ---- OrbitControls ----
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.target.set(0, 0, 0);
-    controls.enablePan = false;
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.4;
-    controls.minDistance = 5;
-    controls.maxDistance = 22;
-    controls.maxPolarAngle = Math.PI * 0.85;
-    controls.minPolarAngle = Math.PI * 0.15;
-    controls.update();
-
-    // ---- 生成占位纹理 ----
-    function createPlaceholderTexture(index) {
-        const size = 256;
-        const c = document.createElement('canvas');
-        c.width = size; c.height = size;
-        const ctx = c.getContext('2d');
-
-        // 深色渐变背景
-        const grad = ctx.createLinearGradient(0, 0, size, size);
-        grad.addColorStop(0, '#1a1a0d');
-        grad.addColorStop(0.5, '#0d0d08');
-        grad.addColorStop(1, '#1a1a0d');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, size, size);
-
-        // 金色边框
-        ctx.strokeStyle = 'rgba(191,160,85,0.3)';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(8, 8, size - 16, size - 16);
-
-        // 中心金色光点
-        const cx = size / 2, cy = size / 2;
-        const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 40);
-        glow.addColorStop(0, 'rgba(212,192,140,0.5)');
-        glow.addColorStop(1, 'rgba(212,192,140,0)');
-        ctx.fillStyle = glow;
-        ctx.fillRect(cx - 40, cy - 40, 80, 80);
-
-        ctx.fillStyle = '#bfa055';
-        ctx.beginPath();
-        ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-        ctx.fill();
-
-        // 编号
-        ctx.fillStyle = 'rgba(140,133,124,0.4)';
-        ctx.font = '20px "Cormorant Garamond", Georgia, serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(String(index + 1), cx, cy + 50);
-
-        const tex = new THREE.CanvasTexture(c);
-        tex.colorSpace = THREE.SRGBColorSpace;
-        return tex;
-    }
-
-    // ---- Fibonacci 球面分布 ----
-    function fibonacciSphere(n, radius) {
-        const points = [];
-        const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-        for (let i = 0; i < n; i++) {
-            const y = 1 - (i / (n - 1)) * 2;
-            const radiusAtY = Math.sqrt(1 - y * y);
-            const theta = goldenAngle * i;
-            points.push({
-                x: Math.cos(theta) * radiusAtY * radius,
-                y: y * radius,
-                z: Math.sin(theta) * radiusAtY * radius
-            });
-        }
-        return points;
-    }
-
-    // ---- 创建球体上的照片平面 ----
-    const sphereGroup = new THREE.Group();
-    scene.add(sphereGroup);
-
-    const positions = fibonacciSphere(ACTUAL_PHOTOS, SPHERE_RADIUS);
-    const placeholderTex = createPlaceholderTexture(0);
-    const photoPlanes = [];
-
-    positions.forEach((pos, i) => {
-        const geometry = new THREE.PlaneGeometry(PHOTO_SIZE, PHOTO_SIZE);
-        const material = new THREE.MeshBasicMaterial({
-            map: i === 0 ? placeholderTex : placeholderTex.clone(),
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0.9,
-            depthWrite: true,
-        });
-        const plane = new THREE.Mesh(geometry, material);
-        plane.position.set(pos.x, pos.y, pos.z);
-        // 面朝球心外侧
-        const outward = new THREE.Vector3(pos.x, pos.y, pos.z).normalize();
-        plane.lookAt(outward.x * 2, outward.y * 2, outward.z * 2);
-        plane.userData = { photoIndex: i };
-        sphereGroup.add(plane);
-        photoPlanes.push(plane);
-    });
-
-    // ---- 金色粒子环 ----
-    const particleGeo = new THREE.BufferGeometry();
-    const particleCount = 80;
-    const particlePositionsArr = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        const r = SPHERE_RADIUS + 1.2 + Math.random() * 3;
-        particlePositionsArr[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        particlePositionsArr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        particlePositionsArr[i * 3 + 2] = r * Math.cos(phi);
-    }
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositionsArr, 3));
-    const particleMat = new THREE.PointsMaterial({
-        color: 0xbfa055,
-        size: 0.06,
-        transparent: true,
-        opacity: 0.5,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-    });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    sphereGroup.add(particles);
-
-    // ---- 渐进式纹理加载 ----
-    const loader = new THREE.TextureLoader();
-    let loadedCount = 0;
-    const BATCH_SIZE = 5;
-    const BATCH_DELAY = 120;
-
-    function loadBatch(startIndex) {
-        const endIndex = Math.min(startIndex + BATCH_SIZE, ACTUAL_PHOTOS);
-        let batchDone = 0;
-
-        for (let i = startIndex; i < endIndex; i++) {
-            const photoName = 'photo-' + String(i + 1).padStart(3, '0') + '.jpg';
-            const folder = isMobile ? 'thumbnails-mobile' : 'thumbnails';
-            const url = './images/photos/' + folder + '/' + photoName;
-
-            loader.load(
-                url,
-                (texture) => {
-                    texture.colorSpace = THREE.SRGBColorSpace;
-                    photoPlanes[i].material.map = texture;
-                    photoPlanes[i].material.needsUpdate = true;
-                    loadedCount++;
-                    batchDone++;
-                    loadingEl.textContent = '加载照片中... ' + loadedCount + '/' + ACTUAL_PHOTOS;
-                    if (batchDone === (endIndex - startIndex) && endIndex < ACTUAL_PHOTOS) {
-                        setTimeout(() => loadBatch(endIndex), BATCH_DELAY);
-                    } else if (loadedCount >= ACTUAL_PHOTOS) {
-                        loadingEl.style.display = 'none';
-                    }
-                },
-                undefined,
-                () => {
-                    // 加载失败：保留占位图
-                    batchDone++;
-                    loadedCount++;
-                    if (batchDone === (endIndex - startIndex) && endIndex < ACTUAL_PHOTOS) {
-                        setTimeout(() => loadBatch(endIndex), BATCH_DELAY);
-                    } else if (loadedCount >= ACTUAL_PHOTOS) {
-                        loadingEl.style.display = 'none';
-                    }
-                }
-            );
-        }
-    }
-
-    // 延迟开始加载，让页面先渲染
-    setTimeout(() => loadBatch(0), 500);
-
-    // ---- 渲染循环（仅球体可见时） ----
-    let isSphereVisible = false;
-    const sphereObserver = new IntersectionObserver((entries) => {
-        isSphereVisible = entries[0].isIntersecting;
-    }, { threshold: 0.05 });
-    sphereObserver.observe(container);
-
-    function animate() {
-        requestAnimationFrame(animate);
-        if (isSphereVisible) {
-            controls.update();
-            // 粒子缓慢自转（比主球体快一点）
-            particles.rotation.y += 0.0003;
-            particles.rotation.x += 0.0001;
-            renderer.render(scene, camera);
-        }
-    }
-    animate();
-
-    // ---- 响应窗口大小变化 ----
-    window.addEventListener('resize', () => {
-        camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
-    });
-
-    // ---- 点击检测 (Raycaster) ----
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-    let mouseDownPos = { x: 0, y: 0 };
-    let mouseUpPos = { x: 0, y: 0 };
-
-    renderer.domElement.addEventListener('pointerdown', (e) => {
-        mouseDownPos = { x: e.clientX, y: e.clientY };
-    });
-
-    renderer.domElement.addEventListener('pointerup', (e) => {
-        mouseUpPos = { x: e.clientX, y: e.clientY };
-        const dx = mouseUpPos.x - mouseDownPos.x;
-        const dy = mouseUpPos.y - mouseDownPos.y;
-        const moved = Math.sqrt(dx * dx + dy * dy);
-
-        // 移动超过 5px 视为拖拽，不触发点击
-        if (moved > 5) return;
-
-        const rect = renderer.domElement.getBoundingClientRect();
-        mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(photoPlanes);
-
-        if (intersects.length > 0) {
-            const photoIndex = intersects[0].object.userData.photoIndex;
-            openLightbox(photoIndex);
-        }
-    });
-
-    // ---- 防止球体上的滚动传播 ----
-    renderer.domElement.addEventListener('wheel', (e) => {
-        e.stopPropagation();
-    }, { passive: false });
-
-    // ---- 暴露到全局 ----
-    window._sphereData = { photoPlanes, ACTUAL_PHOTOS, TOTAL_PHOTOS };
+    window._sphereData = { TOTAL_PHOTOS: TOTAL_PHOTOS, ACTUAL_PHOTOS: TOTAL_PHOTOS };
 })();
 
 // ================================================================
