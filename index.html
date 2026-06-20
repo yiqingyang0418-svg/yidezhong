@@ -20,15 +20,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
-<!-- ===== Three.js Import Map ===== -->
-<script type="importmap">
-{
-    "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-    }
-}
-</script>
+<!-- ===== Three.js 经典加载（兼容本地双击打开） ===== -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.150.0/examples/js/controls/OrbitControls.js"></script>
 
 <style>
 /* ================================================================
@@ -1952,10 +1946,16 @@ main {
 // ================================================================
 // 5. 3D 照片球体 (Three.js)
 // ================================================================
-(async function initPhotoSphere() {
+(function initPhotoSphere() {
     const container = document.getElementById('sphere-container');
     const loadingEl = document.getElementById('sphere-loading');
     if (!container) return;
+
+    // 检查 Three.js 是否加载成功
+    if (typeof THREE === 'undefined') {
+        loadingEl.textContent = 'Three.js 加载失败，请检查网络连接';
+        return;
+    }
 
     // ---- 配置 ----
     const TOTAL_PHOTOS = 97;           // ★ 照片总数，可根据实际情况修改
@@ -1964,11 +1964,8 @@ main {
     const isMobile = window.innerWidth < 768;
     const ACTUAL_PHOTOS = isMobile ? Math.min(TOTAL_PHOTOS, 50) : TOTAL_PHOTOS;
 
-    // ---- 动态导入 Three.js ----
-    const [{default: THREE}, {OrbitControls}] = await Promise.all([
-        import('three'),
-        import('three/addons/controls/OrbitControls.js')
-    ]);
+    // ---- 使用全局 THREE ----
+    const OrbitControls = THREE.OrbitControls;
 
     // ---- 场景、相机、渲染器 ----
     const scene = new THREE.Scene();
