@@ -21,6 +21,7 @@ project:
 | **运行方式** | **双击 `index.html` 直接打开**，不需要服务器、不需要 npm |
 | **浏览器兼容** | 现代浏览器（Chrome/Edge/Firefox/Safari） |
 | **项目标识** | `yidezhong-memorial` — 所有项目文件均携带此标记，用于多项目区分 |
+| **部署** | GitHub Pages：`https://yiqingyang0418-svg.github.io/yidezhong/`（main 分支自动部署） |
 
 ## 文件结构
 
@@ -59,7 +60,9 @@ project:
 
 ## 核心功能
 
-- **照片墙懒加载**：首屏加载15张，其余滚动到附近300px再加载
+- **照片墙懒加载**：首屏加载15张，其余滚动到附近300px再加载。`loadBatch()` 和 `IntersectionObserver` 回调中均添加 `.visible` 类解除初始 `opacity: 0`
+- **缩略图保留原始比例**：`thumbnails/`（最长边256px）和 `thumbnails-mobile/`（最长边128px）均从 `full/` 原始大图按比例缩放，不裁切为正方形
+- **响应式缩略图**：`loadPhoto()` 根据 `window.innerWidth <= 767` 自动选择移动端或桌面缩略图目录
 - **灯箱**：点击照片放大，支持左右键导航、Esc关闭
 - **背景音乐**：自动播放（多次尝试），用户交互后重试
 - **视频弹窗**：点击信封卡片播放，封面显示"女儿祝福"/"儿子祝福"文字
@@ -73,9 +76,10 @@ project:
 2. **所有外部资源用 CDN**——Google Fonts 用 `fonts.googleapis.com`
 3. **不使用 Three.js 等大型库的 npm 安装方式**——如果将来需要3D，用 CDN 的 `<script>` 标签加载
 4. **照片命名规则固定**：`photo-001.jpg` ~ `photo-097.jpg`（三位数字，不足补零）
-5. **添加新照片时**：需要同时准备 `thumbnails/`（缩略图）、`thumbnails-mobile/`、`full/`（大图）三个版本
+5. **添加新照片时**：需要同时准备 `thumbnails/`（缩略图，最长边256px，保留原始比例）、`thumbnails-mobile/`（移动端，最长边128px）、`full/`（大图）三个版本——**禁止裁切为正方形**
 6. **视频命名**：`video-001.mp4` 格式，在 JS 中的 `VIDEOS` 数组里配置
 7. **音乐文件**：`audio/bgm.m4a`，格式固定
+8. **部署**：`git push origin main` → GitHub Pages 自动部署，1-2分钟后 `https://yiqingyang0418-svg.github.io/yidezhong/` 生效
 
 ## 🏷️ 项目标识约定
 
@@ -94,11 +98,13 @@ project:
 
 ### 已完成 ✅
 - 6个板块全部完成
-- 照片墙懒加载（97张照片）
+- 照片墙懒加载（97张照片）+ 动画修复（`.visible` 类解除 opacity）
+- 缩略图保留原始比例（不再裁切为正方形），`object-fit: contain`
+- 响应式缩略图自动切换（≤767px 用 128px 移动版）
 - 音乐按钮（播放/暂停切换，含脉冲动画）
 - 视频封面显示"女儿"/"儿子"文字
 - 响应式适配（手机/平板/桌面）
-- 性能优化（懒加载 + 音乐延迟加载）
+- GitHub Pages 部署 + 微信分享链接
 
 ### 可优化方向
 - 移动端体验进一步优化
