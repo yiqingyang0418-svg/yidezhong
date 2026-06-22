@@ -613,7 +613,7 @@ main {
 .photo-wall-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.4s ease;
 }
 
@@ -714,17 +714,19 @@ main {
 /* 视频封面大字 */
 .envelope-cover-text {
     font-family: var(--font-cn);
-    font-size: 48px;
+    font-size: 34px;
     font-weight: 700;
-    color: rgba(191,160,85,0.3);
-    letter-spacing: 0.2em;
+    color: rgba(191,160,85,0.7);
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 18px rgba(191,160,85,0.25);
     z-index: 1;
     transition: all 0.35s ease;
     pointer-events: none;
 }
 
 .envelope-card:hover .envelope-cover-text {
-    color: rgba(191,160,85,0.55);
+    color: rgba(191,160,85,0.9);
+    text-shadow: 0 0 28px rgba(191,160,85,0.4);
 }
 
 .envelope-play-btn {
@@ -1240,7 +1242,7 @@ main {
     }
 
     .envelope-cover-text {
-        font-size: 36px;
+        font-size: 26px;
     }
 
     .envelope-label {
@@ -2041,7 +2043,10 @@ main {
 
         const photoName = 'photo-' + String(index + 1).padStart(3, '0') + '.jpg';
         const img = document.createElement('img');
-        img.src = './images/photos/thumbnails/' + photoName;
+        const thumbDir = window.innerWidth <= 767
+            ? './images/photos/thumbnails-mobile/'
+            : './images/photos/thumbnails/';
+        img.src = thumbDir + photoName;
         img.alt = '照片 ' + (index + 1);
         img.onload = () => { loadedCount++; };
         img.onerror = () => { item.style.display = 'none'; };
@@ -2051,6 +2056,7 @@ main {
     // 分批加载：首屏 + 后续
     function loadBatch(start, count) {
         for (let i = start; i < start + count && i < TOTAL_PHOTOS; i++) {
+            items[i].classList.add('visible');
             loadPhoto(i);
         }
     }
@@ -2064,7 +2070,10 @@ main {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const idx = items.indexOf(entry.target);
-                    if (idx >= 0) loadPhoto(idx);
+                    if (idx >= 0) {
+                        entry.target.classList.add('visible');
+                        loadPhoto(idx);
+                    }
                     observer.unobserve(entry.target);
                 }
             });
@@ -2142,13 +2151,13 @@ document.addEventListener('keydown', (e) => {
 // ★★★ 在这里修改你的视频信息 ★★★
 const VIDEOS = [
     {
-        title: '女儿的信封',
+        title: '女儿祝福',
         subtitle: '',
         filename: 'video-001.mp4',
         poster: ''
     },
     {
-        title: '儿子的信封',
+        title: '儿子祝福',
         subtitle: '',
         filename: 'video-002.mp4',
         poster: ''
@@ -2161,7 +2170,7 @@ const VIDEOS = [
     if (!grid) return;
 
     // 两个视频各自的文字封面
-    const coverTexts = ['女儿', '儿子'];
+    const coverTexts = ['女儿祝福', '儿子祝福'];
 
     VIDEOS.forEach((video, index) => {
         const card = document.createElement('div');
@@ -2179,6 +2188,20 @@ const VIDEOS = [
 
         card.addEventListener('click', () => openVideoModal(index));
         grid.appendChild(card);
+    });
+
+    // 为动态生成的视频卡片注册 IntersectionObserver（initScrollAnimations 已错过它们）
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                videoObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    grid.querySelectorAll('.envelope-card').forEach(card => {
+        videoObserver.observe(card);
     });
 })();
 
