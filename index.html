@@ -67,17 +67,17 @@ body::before {
     z-index: -1;
     background:
         /* 大面积山岚墨韵 */
-        radial-gradient(ellipse 1400px 900px at 8% 22%, rgba(191,160,85,0.022) 0%, transparent 60%),
-        radial-gradient(ellipse 1100px 750px at 88% 40%, rgba(180,150,80,0.018) 0%, transparent 55%),
-        radial-gradient(ellipse 1200px 850px at 45% 65%, rgba(191,160,85,0.020) 0%, transparent 58%),
+        radial-gradient(ellipse 1400px 900px at 8% 22%, rgba(191,160,85,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 1100px 750px at 88% 40%, rgba(180,150,80,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse 1200px 850px at 45% 65%, rgba(191,160,85,0.07) 0%, transparent 58%),
         /* 中层淡墨晕染 */
-        radial-gradient(ellipse 600px 420px at 20% 55%, rgba(170,140,70,0.015) 0%, transparent 50%),
-        radial-gradient(ellipse 500px 350px at 72% 18%, rgba(200,170,100,0.012) 0%, transparent 48%),
-        radial-gradient(ellipse 550px 380px at 55% 35%, rgba(160,135,75,0.010) 0%, transparent 52%),
+        radial-gradient(ellipse 600px 420px at 20% 55%, rgba(170,140,70,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 500px 350px at 72% 18%, rgba(200,170,100,0.04) 0%, transparent 48%),
+        radial-gradient(ellipse 550px 380px at 55% 35%, rgba(160,135,75,0.05) 0%, transparent 52%),
         /* 小面积浓墨点缀 */
-        radial-gradient(circle 180px at 35% 28%, rgba(150,130,80,0.025) 0%, transparent 42%),
-        radial-gradient(circle 140px at 65% 75%, rgba(140,120,70,0.020) 0%, transparent 38%),
-        radial-gradient(circle 160px at 50% 50%, rgba(175,155,95,0.015) 0%, transparent 35%);
+        radial-gradient(circle 180px at 35% 28%, rgba(150,130,80,0.12) 0%, transparent 42%),
+        radial-gradient(circle 140px at 65% 75%, rgba(140,120,70,0.10) 0%, transparent 38%),
+        radial-gradient(circle 160px at 50% 50%, rgba(175,155,95,0.10) 0%, transparent 35%);
 }
 
 /* ===== 滚动容器 ===== */
@@ -1686,7 +1686,7 @@ main {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const particles = [];
-    const COUNT = 35;
+    const COUNT = 65;
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -1702,10 +1702,10 @@ main {
         reset(init) {
             this.x = Math.random() * canvas.width;
             this.y = init ? Math.random() * canvas.height : canvas.height + 10;
-            this.size = 0.3 + Math.random() * 1.0;
+            this.size = 0.6 + Math.random() * 0.9;
             this.speedY = 0.08 + Math.random() * 0.22;
             this.speedX = (Math.random() - 0.5) * 0.15;
-            this.opacity = 0.1 + Math.random() * 0.3;
+            this.opacity = 0.15 + Math.random() * 0.3;
             this.twinkleSpeed = 0.003 + Math.random() * 0.008;
             this.twinkleOffset = Math.random() * Math.PI * 2;
         }
@@ -1717,8 +1717,8 @@ main {
             }
         }
         draw(ctx, time) {
-            const alpha = this.opacity + Math.sin(time * this.twinkleSpeed + this.twinkleOffset) * 0.12;
-            const a = Math.max(0.02, Math.min(0.5, alpha));
+            const alpha = this.opacity + Math.sin(time * this.twinkleSpeed + this.twinkleOffset) * 0.20;
+            const a = Math.max(0.03, Math.min(0.7, alpha));
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(191,160,85,${a.toFixed(3)})`;
