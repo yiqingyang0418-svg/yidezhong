@@ -446,6 +446,19 @@ main {
     border: 1px solid rgba(191,160,85,0.2);
 }
 
+/* 照片行容器 - 多张照片横向排列 */
+.about-card-photos {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.about-card-photos .about-card-photo {
+    flex: 1;
+    min-width: 0;
+    height: 120px;
+    margin-bottom: 0;
+}
+
 .about-card-text {
     font-size: 14px;
     color: var(--text-secondary);
@@ -1169,6 +1182,13 @@ main {
         grid-template-columns: 1fr;
     }
 
+    .about-card-photos {
+        flex-wrap: wrap;
+    }
+    .about-card-photos .about-card-photo {
+        flex: 1 1 100px;
+    }
+
     /* 双栏 → 堆叠 */
     .dual-panel {
         flex-direction: column;
@@ -1434,7 +1454,11 @@ main {
 
             <!-- 1. 爱好 -->
             <div class="about-card fade-up">
-                <img class="about-card-photo" src="images/section2/hobby-微信图片_20260620221739_102_25.jpg" alt="爱好" loading="lazy">
+                <div class="about-card-photos">
+                    <img class="about-card-photo" src="images/section2/hobby-01.jpg" alt="爱好" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/hobby-02.jpg" alt="爱好" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/hobby-03.jpg" alt="爱好" loading="lazy">
+                </div>
                 <div class="about-card-icon">🏋️</div>
                 <div class="about-card-title">爱好</div>
                 <div class="about-card-text">锻炼、管理、传统文化</div>
@@ -1442,6 +1466,11 @@ main {
 
             <!-- 2. 目标与梦想 -->
             <div class="about-card fade-up">
+                <div class="about-card-photos">
+                    <img class="about-card-photo" src="images/section2/dream-01.jpg" alt="目标与梦想" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/dream-02.jpg" alt="目标与梦想" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/dream-03.jpg" alt="目标与梦想" loading="lazy">
+                </div>
                 <div class="about-card-icon">🎯</div>
                 <div class="about-card-title">目标与梦想</div>
                 <div class="about-card-text">成立一家家族企业，成为名门望族</div>
@@ -1449,7 +1478,11 @@ main {
 
             <!-- 3. 取得成就 -->
             <div class="about-card achievement fade-up">
-                <img class="about-card-photo" src="images/section2/achieve-微信图片_20260620221735_98_25.jpg" alt="取得成就" loading="lazy">
+                <div class="about-card-photos">
+                    <img class="about-card-photo" src="images/section2/achieve-01.jpg" alt="取得成就" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/achieve-02.jpg" alt="取得成就" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/achieve-03.jpg" alt="取得成就" loading="lazy">
+                </div>
                 <div class="about-card-icon">🏆</div>
                 <div class="about-card-title">取得成就</div>
                 <div class="achievement-list">
@@ -1470,6 +1503,11 @@ main {
 
             <!-- 4. 座右铭 -->
             <div class="about-card fade-up">
+                <div class="about-card-photos">
+                    <img class="about-card-photo" src="images/section2/motto-01.jpg" alt="座右铭" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/motto-02.jpg" alt="座右铭" loading="lazy">
+                    <img class="about-card-photo" src="images/section2/motto-03.jpg" alt="座右铭" loading="lazy">
+                </div>
                 <div class="about-card-icon">📜</div>
                 <div class="about-card-title">座右铭</div>
                 <div class="about-card-text">踏实做事，诚实做人</div>
