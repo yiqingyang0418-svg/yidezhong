@@ -8,5 +8,7 @@ project: yidezhong-memorial
 - [照片懒加载策略](.claude/memory/lazy-loading-strategy.md) — 首屏15张+滚动加载其余
 - [视频封面用文字](.claude/memory/video-cover-design.md) — 信封封面显示"女儿祝福""儿子祝福"文字标识
 - [照片命名规则](.claude/memory/photo-naming-convention.md) — photo-001.jpg格式，三个尺寸版本
-- [金色主题设计](.claude/memory/gold-theme-design.md) — 黑底+金色配色，CSS变量管理
+- [金色主题设计](.claude/memory/gold-theme-design.md) — 黑底+金色配色，CSS变量管理 + 背景水墨粒子增强
+- [Section 2 卡片照片行](.claude/memory/section2-photo-cards.md) — 4张卡片各3张照片flexbox横向排列
+- [背景水墨纹理 + 粒子场](.claude/memory/background-ink-wash-particles.md) — 9层径向渐变墨韵 + 80颗canvas金色微粒
 - [部署与微信分享](.claude/memory/deployment-and-sharing.md) — GitHub Pages地址 + push即部署流程
