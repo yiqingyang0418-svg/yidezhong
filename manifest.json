@@ -1,0 +1,22 @@
+{
+  "name": "易德忠 — 永远的记忆",
+  "short_name": "易德忠纪念",
+  "description": "易德忠先生（1973年生）的个人纪念网站——记录一位父亲、儿子、企业家的生平与家庭记忆。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#bfa055",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/og-image.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "images/og-image.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

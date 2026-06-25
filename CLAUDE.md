@@ -15,8 +15,8 @@ project:
 
 | 项目 | 详情 |
 |------|------|
-| **类型** | 纯静态网页 |
-| **文件** | 单文件 `index.html`，CSS/JS 全部内联 |
+| **类型** | 纯静态网页（PWA 就绪） |
+| **文件** | 单文件 `index.html`，CSS/JS 全部内联；`manifest.json` + `sw.js`（PWA） |
 | **字体** | Google Fonts（Noto Serif SC + Cormorant Garamond） |
 | **运行方式** | **双击 `index.html` 直接打开**，不需要服务器、不需要 npm |
 | **浏览器兼容** | 现代浏览器（Chrome/Edge/Firefox/Safari） |
@@ -29,6 +29,8 @@ project:
 易德忠/
 ├── index.html          ← 唯一核心文件（所有代码在这里）
 ├── CLAUDE.md           ← 项目说明书（本文件）
+├── manifest.json       ← PWA 清单（可添加到主屏幕）
+├── sw.js               ← Service Worker（离线缓存）
 ├── .gitignore
 ├── audio/
 │   └── bgm.m4a         ← 背景音乐
