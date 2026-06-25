@@ -38,9 +38,29 @@ metadata:
 | 移动速度 | 竖直 0.08-0.30 px/frame，水平 ±0.075 |
 | 光晕 | 尺寸>0.7px 的粒子带 2.5 倍弱光晕 |
 
-**JS 位置**：index.html 约第 1684-1756 行，IIFE 自执行。
+**JS 位置**：index.html，IIFE 自执行（`// 1. 全页面背景粒子` 标记）。
 
 **性能优化**：页面切后台（`visibilitychange`）时暂停 `requestAnimationFrame`。
+
+## Canvas 高 DPI 适配（2026-06-25 新增）
+
+所有 3 个 canvas（背景粒子、开场粒子、烟花）均使用 `setupHiDPI()` 工具函数适配 Retina/高 DPI 屏幕：
+
+```js
+function setupHiDPI(canvas, ctx, width, height) {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+```
+
+## prefers-reduced-motion 支持（2026-06-25 新增）
+
+- CSS：`@media (prefers-reduced-motion: reduce)` 将所有动画 duration 设为 0.01ms，隐藏 3 个 canvas
+- JS：`const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches` — 3 个 canvas 初始化前检查，匹配时跳过
 
 ## 层级结构
 
